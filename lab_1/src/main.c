@@ -4,9 +4,11 @@
 #define COEFFICIENT_A 1
 #define STEPS_NUMBER_M 10
 #define STEPS_NUMBER_N 4
+#define KURANT_NUMBER 0.8
 
 static const int STEP_NUMBER_MP = 5;
-static const float KURANT_NUMBER = 0.8;
+static const float H_INDEX = 1.0 / STEPS_NUMBER_M;
+static const float TAU_INDEX = (H_INDEX * KURANT_NUMBER) / COEFFICIENT_A;
 
 void setInitializeConditions(float dArea[STEPS_NUMBER_N][STEPS_NUMBER_M]);
 void setGridValues(float dArea[STEPS_NUMBER_N][STEPS_NUMBER_M]);
@@ -32,15 +34,13 @@ float phiFunction(float x) {
 
 void setInitializeConditions(float dArea[STEPS_NUMBER_N][STEPS_NUMBER_M]) {
   int j, n;
-  float h = 1.0 / STEPS_NUMBER_M;
-  float tau = (h * KURANT_NUMBER) / COEFFICIENT_A;
 
   for (j=1; j < STEPS_NUMBER_M; j++) {
-    dArea[0][j] = phiFunction(j * h);
+    dArea[0][j] = phiFunction(j * H_INDEX);
   }
 
   for (n=1; n < STEPS_NUMBER_N; n++) {
-    dArea[n][0] = alphaFunction(n * tau);
+    dArea[n][0] = alphaFunction(n * TAU_INDEX);
   }
 }
 
@@ -54,12 +54,10 @@ float topGridValue(float centerY, float leftY, float tau, float fFunction) {
 
 void setGridValues(float dArea[STEPS_NUMBER_N][STEPS_NUMBER_M]) {
   int j, n;
-  float h = 1.0 / STEPS_NUMBER_M;
-  float tau = (h * KURANT_NUMBER) / COEFFICIENT_A;
 
   for (n=1; n < STEPS_NUMBER_N; n++) {
     for (j=1; j < STEPS_NUMBER_M; j++) {
-      dArea[n][j] = topGridValue(dArea[n][j], dArea[n][j-1], tau, fFunction(j * h, n * tau));
+      dArea[n][j] = topGridValue(dArea[n][j], dArea[n][j-1], TAU_INDEX, fFunction(j * H_INDEX, n * TAU_INDEX));
     }
   }
 }
@@ -67,11 +65,10 @@ void setGridValues(float dArea[STEPS_NUMBER_N][STEPS_NUMBER_M]) {
 void printMatrix(float dArea[STEPS_NUMBER_N][STEPS_NUMBER_M]) {
   int i, j;
 
-  for (i = 0; i < STEPS_NUMBER_N; i++) {
+  for (i = STEPS_NUMBER_N - 1; i >= 0; i--) {
     for (j = 0; j < STEPS_NUMBER_M; j++) {
-      printf ("%f  ", dArea[i][j]);
+      printf ("% 1.5f ", dArea[i][j]);
     }
-
     printf ("\n");
   }
 }
