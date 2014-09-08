@@ -1,30 +1,42 @@
-typedef struct {
-  float kurant_number;
+#include <stdio.h>
+#include <math.h>
+#include "math_functions.h"
+
+#define COEFFICIENT_A 1
+#define MAX_X_VALUE 1.0
+
+// http://habrahabr.ru/post/142662/
+struct Grid {
   int steps_number_m;
   int steps_number_n;
   int steps_number_mp;
+  float kurant_number;
   float h_index;
   float tau_index;
   float **grid;
-} Grid;
+};
 
-float f_function(float x, float t) {
-  return tan(t);
-}
+// float top_grid_value(struct Grid *grid, int j, int n) {
+//   float center_y = grid->grid[n][j];
+//   float kurant_number = grid->kurant_number;
+//   float left_y = grid->grid[n][j - 1];
+//   float tau = grid->tau_index;
+//   float f_function_data = f_function(j * grid->h_index, n * grid->tau_index);
+//
+//   return center_y + kurant_number * (center_y - left_y) + tau * f_function_data;
+// }
+//
+// void set_grid_values(struct Grid *grid) {
+//   int j, n;
+//
+//   for (n = 0; n < grid->steps_number_m; n++) {
+//     for (j = 0; j < grid->steps_number_n; j++) {
+//       grid->grid[n][j] = top_grid_value(&grid, j, n);
+//     }
+//   }
+// }
 
-float alpha_function(float t) {
-  return pow(t, 2) - log10(cos(t));
-}
-
-float phi_function(float x) {
-  return pow(x, 2);
-}
-
-float top_grid_value(float centerY, float leftY, float tau, float f_function) {
-  return centerY + KURANT_NUMBER * (centerY - leftY) + tau * f_function;
-}
-
-void grid_init(Grid *grid) {
+void grid_init(struct Grid *grid) {
   int j, n;
 
   grid->h_index = MAX_X_VALUE / grid->steps_number_m;
@@ -37,15 +49,6 @@ void grid_init(Grid *grid) {
   for (n = 0; n < grid->steps_number_n; n++) {
     grid->grid[n][0] = alpha_function(n * grid->tau_index);
   }
+
+  // set_grid_values(&grid);
 }
-
-void set_grid_values(Grid *grid) {
-  int j, n;
-
-  for (n = 0; n < grid->steps_number_m; n++) {
-    for (j = 0; j < grid->steps_number_n; j++) {
-      // grid->grid[n][j] = top_grid_value(grid[n][j], grid[n][j - 1], TAU_INDEX, f_function(j * H_INDEX, n * TAU_INDEX));
-    }
-  }
-}
-

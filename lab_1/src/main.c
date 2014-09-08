@@ -1,32 +1,31 @@
 #include <stdio.h>
-#include <math.h>
 #include "grid.h"
 
-#define COEFFICIENT_A 1
-#define ITERATION_COUNT 4
-#define MAX_X_VALUE 1.0
+#define ITERATION_COUNT 1
 
-void print_matrix(float grid[STEPS_NUMBER_N][STEPS_NUMBER_M]) {
+void print_matrix(struct Grid grid) {
   int i, j;
 
-  for (i = STEPS_NUMBER_N - 1; i >= 0; i--) {
-    for (j = 0; j < STEPS_NUMBER_M; j++) {
-      printf ("% 1.5f ", grid[i][j]);
+  for (i = grid.steps_number_n - 1; i >= 0; i--) {
+    for (j = 0; j < grid.steps_number_m; j++) {
+      printf ("% 1.5f ", grid.grid[i][j]);
     }
     printf ("\n");
   }
 }
 
 int main(void) {
-  Grid grid[ITERATION_COUNT] = {
-    {0.8, 10, 4, 5}
-  };
+  struct Grid grid = { 10, 4, 5, 0.8, 0.0, 0.0, 0 };
   int i;
 
-  for (i = 0; i < ITERATION_COUNT; i++) {
-    grid_init(grid);
-    set_grid_values(grid);
-    printf("\n");
-  }
+  printf(&grid.steps_number_m);
+  printf("\n");
+  
+
+  /* for (i = 0; i < ITERATION_COUNT; i++) { */
+  /*   #<{(| grid_init(&grid); |)}># */
+  /*   print_matrix(grid); */
+  /*   printf("\n"); */
+  /* } */
   return 0;
 }
