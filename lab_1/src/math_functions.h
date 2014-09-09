@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-float f_function(float x, float t) {
+float f_function(float t) {
   return tan(t);
 }
 
