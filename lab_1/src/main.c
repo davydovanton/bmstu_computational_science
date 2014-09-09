@@ -15,22 +15,40 @@ void print_matrix(struct Grid grid) {
   }
 }
 
-int main(void) {
-  // use this array defination in iteration in ddefination all Grid struct
+void print_node(struct Grid grid, int iteration) {
+  printf ("% 1.5f ", grid.grid[iteration][grid.steps_number_mp - 1]);
+  printf ("\n");
+}
 
-  float **array = (float **)malloc(sizeof(float *)*4);
-
-  for(int i=0; i < 4; i++) {
-    array[i] = (float *)malloc(sizeof(float)*10);
+static void memory_allocation(struct Grid *grid) {
+  grid->grid = (float **)malloc(sizeof(float *) * grid->steps_number_n);
+  for(int i = 0; i < grid->steps_number_n; i++) {
+    grid->grid[i] = (float *)malloc(sizeof(float) * grid->steps_number_m);
   }
+}
 
-  struct Grid grid = { 10, 4, 5, 0.8, 0.0, 0.0, array };
+static void memory_free(struct Grid *grid) {
+  for(int i=0; i < grid->steps_number_n; i++) {
+    free(grid->grid[i]);
+  }
+  free(grid->grid);
+}
 
-  /* for (i = 0; i < ITERATION_COUNT; i++) { */
-    grid_init(&grid);
-    set_grid_values(&grid);
-    print_matrix(grid);
-    printf("\n");
-  /* } */
+static void run_programm(struct Grid grid, int iteration) {
+  memory_allocation(&grid);
+  grid_init(&grid);
+  set_grid_values(&grid);
+  /* print_matrix(grid); */
+  /*  */
+  printf("\n Number: ");
+  print_node(grid, iteration);
+  printf("\n");
+  memory_free(&grid);
+}
+
+int main(void) {
+  struct Grid grid = { 10, 4, 5, 0.8, 0.0, 0.0 };
+  run_programm(grid, 1);
+
   return 0;
 }
