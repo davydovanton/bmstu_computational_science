@@ -36,7 +36,7 @@ struct Grid {
 //   }
 // }
 
-void grid_init(struct Grid *grid) {
+static void grid_init(struct Grid *grid) {
   int j, n;
 
   grid->h_index = MAX_X_VALUE / grid->steps_number_m;
