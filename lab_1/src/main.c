@@ -17,16 +17,18 @@ void print_matrix(struct Grid grid) {
 
 int main(void) {
   // use this array defination in iteration in ddefination all Grid struct
+
   float **array = (float **)malloc(sizeof(float *)*4);
 
   for(int i=0; i < 4; i++) {
     array[i] = (float *)malloc(sizeof(float)*10);
   }
 
-  struct Grid grid = { 10, 4, 5, 0.8, 0.0, 0.0 };
+  struct Grid grid = { 10, 4, 5, 0.8, 0.0, 0.0, array };
 
   /* for (i = 0; i < ITERATION_COUNT; i++) { */
     grid_init(&grid);
+    set_grid_values(&grid);
     print_matrix(grid);
     printf("\n");
   /* } */
