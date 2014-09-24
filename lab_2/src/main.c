@@ -4,8 +4,17 @@
 
 #define LINEAR_SYSTEM_SIZE 4
 
-int main(){
+static void print_result(double *alpha, double *beta, double *x) {
   int i;
+
+  for(i = 0; i < LINEAR_SYSTEM_SIZE; i++) {
+    printf("Alpha%i value: % 3.1f\t", i+1, alpha[i]);
+    printf("Beta%i value: % 3.1f\t", i+1, beta[i]);
+    printf("X%i value: % 3.1f\n", i+1, x[i]);
+  }
+}
+
+int main(){
   double a[LINEAR_SYSTEM_SIZE] = {  0, -1,  2,  1 };
   double b[LINEAR_SYSTEM_SIZE] = {  2,  7,  6,  1 };
   double c[LINEAR_SYSTEM_SIZE] = {  1,  4,  4,  0 };
@@ -23,10 +32,6 @@ int main(){
 
   x_values_calculate(alpha, beta, x);
 
-  for(i = 0; i < LINEAR_SYSTEM_SIZE; i++) {
-    printf("Alpha%i value: %3.1f\t", i+1, alpha[i]);
-    printf("Beta%i  value: %3.1f\t", i+1, beta[i]);
-    printf("X%i     value: %3.1f\n", i+1, x[i]);
-  }
+  print_result(alpha, beta, x);
   return 0;
 }
