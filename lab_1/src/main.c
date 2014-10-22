@@ -31,7 +31,8 @@ void print_node(struct Portion *portion) {
     printf ("X value: %  d; U(x, t) value: % 1.5f; U(x, t) analytic value: % 1.5f",
         j,
         portion->grid[portion->steps_number_n - 1][j],
-        analytic_function(j, portion->steps_number_n - 1));
+        analytic_function(j, portion->steps_number_n - 1)
+        );
     printf ("\n");
   }
   printf ("\n\n\n");
